@@ -1,6 +1,11 @@
 {
-    "consumer_key":"knqht4oNj9cgX8NV3wBmJmMTX",
-    "consumer_secret":"iwsILf4BUvx7yilhisYVcNzZRP7ZHc0YTNdv40Rby4szaHvxMs",
-    "access_tooken":"1464306929799512064-p39NnSMyEPJidju2tnmnF7CMiuV2lt",
-    "access_tooken_secret":"fGPcX12pZLviZiaT2Xy63nATuGnU5Yh79Jr4U6xrk9r7P"
+    "consumer_key":"97uY8H3JOfMQwAzR1MWOlzmjq",
+    "consumer_secret":"kR86U2eYtVWJQ9Mu1kjLvveusf6ReuZsLc8pN01A7vhCy5i3Np",
+    "access_tooken":"1464306929799512064-gGm51jWigQUzYL9mfAn7JJsBO680HX",
+    "access_tooken_secret":"Q35L3hxq9HcJf60ywk9tgOHvIUQr4YDkITp5RTLwtOIv7",
+    "host":"localhost",
+    "user":"root",
+    "password":"@Khakbarsar80",
+    "database":"twitter_bot",
+    "table":"randit2222"
 }
