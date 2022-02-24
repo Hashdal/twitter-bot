@@ -1,3 +1,4 @@
+from multiprocessing.dummy import current_process
 import mysql.connector
 from random import randint as rand
 import json
@@ -18,32 +19,35 @@ class Database:
         self.__password = DBInfo['password']
         self.__database = DBInfo['database']
         self.__table = DBInfo['table']
-        self.__dbOne = mysql.connector.connect(
+
+        checkDB = mysql.connector.connect(
             host = self.__host,
             user = self.__user,
             password = self.__password,
         )
-        cursor = self.__dbOne.cursor()
-        checkDB = False
+        cursor = checkDB.cursor()
+        DBExist = False
         cursor.execute('SHOW DATABASES')
         for dbName in cursor:
             if self.__database in dbName:
-                checkDB = True
-        if not checkDB:
-            createDB = self. mysql.connector.connect(
+                DBExist = True
+        if not DBExist:
+            createDB = mysql.connector.connect(
                 host = self.__host,
                 user = self.__user,
                 password = self.__password,
-                database = self.__database,
-                ).cursor()
-            createDB.execute('CREATE DATABASE {}'.format(self.__database))
+                )
+            cursor = createDB.cursor()
+            cursor.execute('CREATE DATABASE {}'.format(self.__database))
             print('DATABASE CREATED')
+
         self.__db = mysql.connector.connect(
             host = self.__host,
             user = self.__user,
             password = self.__password,
             database = self.__database,
         )
+
         checkTable = False
         cursor = self.__db.cursor()
         cursor.execute('SHOW TABLES')
@@ -51,23 +55,24 @@ class Database:
             if self.__table in tableName:
                 checkTable = True
         if not checkTable:
-            self.__dbTwo = mysql.connector.connect(
+            createTable = mysql.connector.connect(
                 host = self.__host,
                 user = self.__user,
                 password = self.__password,
                 database = self.__database,
                 )
-            createTable = self.__dbTwo.cursor()
-            createTable.execute('CREATE TABLE {} (id INT AUTO_INCREMENT PRIMARY KEY, tweet VARCHAR(280))'.format(self.__table))
-            file = open('Tweets.txt ', 'r')
+            cursor = createTable.cursor()
+            cursor.execute('CREATE TABLE {} (id INT AUTO_INCREMENT PRIMARY KEY, tweet VARCHAR(280))'.format(self.__table))
+            file = open('Tweets.txt', 'r')
             fileLines = file.readlines()
-            insertTable = self.__dbTwo.cursor()
-            sql = 'INSERT INTO {} (tweet) VALUES (%s)'.format(self.__table)
+            insertTable = createTable.cursor()
+            sqlCommand = 'INSERT INTO {} (tweet) VALUES (%s)'.format(self.__table)
             for i in fileLines:
                 val = (i,)
-                insertTable.execute(sql, val)
-                self.__dbTwo.commit()
+                insertTable.execute(sqlCommand, val)
+                createTable.commit()
             print('TABLE CREATED')
+
     def get_host(self) -> str:
         return self.__host
 

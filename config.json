@@ -6,6 +6,8 @@
     "host":"localhost",
     "user":"root",
     "password":"@Khakbarsar80",
-    "database":"twitter_bot",
-    "table":"randit2222"
+    "database":"twitter_bww",
+    "table":"randit2222",
+    "delay_seconds":"",
+    "number_of_tweets":""
 }
