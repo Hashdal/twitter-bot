@@ -1,13 +1,13 @@
 {
-    "consumer_key":"97uY8H3JOfMQwAzR1MWOlzmjq",
-    "consumer_secret":"kR86U2eYtVWJQ9Mu1kjLvveusf6ReuZsLc8pN01A7vhCy5i3Np",
-    "access_tooken":"1464306929799512064-gGm51jWigQUzYL9mfAn7JJsBO680HX",
-    "access_tooken_secret":"Q35L3hxq9HcJf60ywk9tgOHvIUQr4YDkITp5RTLwtOIv7",
-    "host":"localhost",
-    "user":"root",
-    "password":"@Khakbarsar80",
-    "database":"twitter_bww",
-    "table":"randit2222",
+    "consumer_key":"",
+    "consumer_secret":"",
+    "access_tooken":"",
+    "access_tooken_secret":"",
+    "host":"",
+    "user":"",
+    "password":"",
+    "database":"",
+    "table":"",
     "delay_seconds":"",
     "number_of_tweets":""
 }

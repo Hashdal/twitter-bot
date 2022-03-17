@@ -1,6 +1,8 @@
+from logging import raiseExceptions
 import twitter
 import json
 import accessDB
+from time import sleep
 
 class MainActions:
     __api = None
@@ -16,8 +18,8 @@ class MainActions:
             access_token_secret=botInfo["access_tooken_secret"],
         )
         self.__db = accessDB.Database(configFile=configFile)
-        self.__delays = botInfo["delay_seconds"]
-        self.__numberOfTweets = botInfo["number_of_tweets"]
+        self.__delays = int(botInfo["delay_seconds"])
+        self.__numberOfTweets = int(botInfo["number_of_tweets"])
     
     def random_from_db(self) -> None:
         self.__api.PostUpdate(self.__db.read_random_data_from_table())
@@ -28,13 +30,21 @@ class MainActions:
         self.__api.PostUpdate(tweet)
 
     def send_tweet_in_timespans(self) -> None:
-        pass 
+        for i in range(self.__numberOfTweets):
+            try:
+                self.random_from_db()
+                print("tweet {} sent".format(i+1))
+            except:
+                print("failed to send tweet")
+            sleep(self.__delays)
 
 
 
-a = input('1. send tweet, 2. send random tweet from database ')
+a = input('1. send tweet, 2. send random tweet from database, 3. send random tweets in timespans: ')
 m = MainActions('./config.json')
 if a == '1':
     m.send_tweet()
-else: 
+elif a == '2':
     m.random_from_db()
+else:
+    m.send_tweet_in_timespans()
