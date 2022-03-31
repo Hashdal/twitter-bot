@@ -9,5 +9,6 @@
     "database":"",
     "table":"",
     "delay_seconds":"",
-    "number_of_tweets":""
+    "number_of_tweets":" ",
+    "mode":""
 }
