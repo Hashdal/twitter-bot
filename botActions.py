@@ -24,7 +24,7 @@ class MainActions:
         self.mode = int(botInfo["mode"])
     
     def random_from_db(self) -> None:
-        self.__api.PostUpdate(self.__db.read_random_data_from_table())
+        self.__api.PostUpdate(self.__db.pop_random_data_from_table())
 
     def send_tweet(self, tweet:str = None) -> None:
         if tweet == None:

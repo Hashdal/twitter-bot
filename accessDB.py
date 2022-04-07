@@ -1,4 +1,5 @@
 from multiprocessing.dummy import current_process
+from typing import Counter
 import mysql.connector
 from random import randint as rand
 import json
@@ -100,3 +101,22 @@ class Database:
         id = (str(rand(0, number_of_tables),),)
         cursor.execute(sql_command, id)
         return cursor.fetchone()[0]
+    
+    def pop_random_data_from_table(self) -> str:
+        sql = mysql.connector.connect(
+            host = self.__host,
+            user = self.__user,
+            password = self.__password,
+            database = self.__database
+        )
+        cursor = sql.cursor()
+        sql_command = 'SELECT COUNT(*) FROM {}'.format(self.__table)
+        cursor.execute(sql_command)
+        number_of_tables: int = cursor.fetchone()[0]
+        sql_command = 'SELECT tweet FROM {} WHERE id = %s'.format(self.__table)
+        id = (str(rand(0, number_of_tables),),)
+        cursor.execute(sql_command, id)
+        table_row_tweet = cursor.fetchone()[0]
+        sql_command = 'DELETE FROME {} WHERE id = %s'.format(self.__table)
+        cursor.execute(sql_command, id)
+        return table_row_tweet
