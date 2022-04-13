@@ -3,6 +3,7 @@ from typing import Counter
 import mysql.connector
 from random import randint as rand
 import json
+import random
 
 class Database:
 
@@ -86,6 +87,19 @@ class Database:
     def get_database(self) -> str:
         return self.__database
 
+    def get_table_rows(self) -> int:
+        sql = mysql.connector.connect(
+            host = self.__host,
+            user = self.__user,
+            password = self.__password,
+            database = self.__database
+        )
+        cursor = sql.cursor()
+        sql_command = 'SELECT COUNT(*) FROM {}'.format(self.__table)
+        cursor.execute(sql_command)
+        number_of_tables: int = cursor.fetchone()[0]
+        return number_of_tables
+
     def read_random_data_from_table(self) -> str:
         sql = mysql.connector.connect(
             host = self.__host,
@@ -102,7 +116,7 @@ class Database:
         cursor.execute(sql_command, id)
         return cursor.fetchone()[0]
     
-    def pop_random_data_from_table(self) -> str:
+    def pop_random_data_from_table(self, id = None) -> str:
         sql = mysql.connector.connect(
             host = self.__host,
             user = self.__user,
@@ -110,13 +124,17 @@ class Database:
             database = self.__database
         )
         cursor = sql.cursor()
-        sql_command = 'SELECT COUNT(*) FROM {}'.format(self.__table)
+        sql_command = 'SELECT tweet FROM {} WHERE id = {}'.format(self.__table, id)
         cursor.execute(sql_command)
-        number_of_tables: int = cursor.fetchone()[0]
-        sql_command = 'SELECT tweet FROM {} WHERE id = %s'.format(self.__table)
-        id = (str(rand(0, number_of_tables),),)
-        cursor.execute(sql_command, id)
         table_row_tweet = cursor.fetchone()[0]
-        sql_command = 'DELETE FROME {} WHERE id = %s'.format(self.__table)
-        cursor.execute(sql_command, id)
+        sql_command = 'DELETE FROM {} WHERE id = {}'.format(self.__table, id)
+        sql2 = mysql.connector.connect(
+            host = self.__host,
+            user = self.__user,
+            password = self.__password,
+            database = self.__database
+        )
+        cursor2 = sql2.cursor()
+        cursor2.execute(sql_command)
+        sql2.commit()
         return table_row_tweet

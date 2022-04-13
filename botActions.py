@@ -1,8 +1,8 @@
-from logging import raiseExceptions
 import twitter
 import json
 import accessDB
 from time import sleep
+import random
 
 class MainActions:
     __api = None
@@ -23,8 +23,10 @@ class MainActions:
         self.__numberOfTweets = int(botInfo["number_of_tweets"])
         self.mode = int(botInfo["mode"])
     
-    def random_from_db(self) -> None:
-        self.__api.PostUpdate(self.__db.pop_random_data_from_table())
+    def random_from_db(self, id = None) -> None:
+        tweet = str(self.__db.pop_random_data_from_table(id))
+        print(tweet)
+        self.__api.PostUpdate(tweet)
 
     def send_tweet(self, tweet:str = None) -> None:
         if tweet == None:
@@ -32,9 +34,10 @@ class MainActions:
         self.__api.PostUpdate(tweet)
 
     def send_tweet_in_timespans(self) -> None:
-        for i in range(self.__numberOfTweets):
+        for i in range(self.__db.get_table_rows()):
             try:
-                self.random_from_db()
+                randomList = random.sample(range(1, self.__db.get_table_rows() + 1), self.__db.get_table_rows())
+                self.random_from_db(randomList.pop())
                 print("tweet {} sent".format(i+1))
             except:
                 print("failed to send tweet")
