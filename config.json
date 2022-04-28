@@ -1,14 +1,19 @@
 {
-    "consumer_key":"cTHEVu1aZGFZeNMmC732W2ahT",
-    "consumer_secret":"AIAt8BehmVYExJyROPJBtWSc4VUzD66vSPRbAvy3lIeB9fFFmM",
-    "access_tooken":"1464306929799512064-slInJYo8r9nXdq73EdW9k3xFu0OaRp",
-    "access_tooken_secret":"URTmRr3ChwSVGHoYG1cpk8PuXbQBKG6RzwBXA6e26qSTN",
+    "consumer_key":"",
+    "consumer_secret":"",
+    "access_tooken":"",
+    "access_tooken_secret":"",
     "host":"localhost",
     "user":"root",
-    "password":"@Khakbarsar80",
+    "password":"",
     "database":"twitter_bot",
+<<<<<<< HEAD
     "table":"HashdalTest1",
     "delay_seconds":"10",
+=======
+    "table":"",
+    "delay_seconds":"5",
+>>>>>>> d87a9fc6d3cc42166f09626fdad6dbf329241f2d
     "number_of_tweets":"10",
     "mode":"3"
 }
