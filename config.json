@@ -7,8 +7,8 @@
     "user":"root",
     "password":"@Khakbarsar80",
     "database":"twitter_bot",
-    "table":"randdddddittttsakjdfl",
-    "delay_seconds":"5",
+    "table":"HashdalTest1",
+    "delay_seconds":"10",
     "number_of_tweets":"10",
     "mode":"3"
 }

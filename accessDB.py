@@ -1,4 +1,5 @@
 from multiprocessing.dummy import current_process
+from turtle import update
 from typing import Counter
 import mysql.connector
 from random import randint as rand
@@ -64,11 +65,11 @@ class Database:
                 database = self.__database,
                 )
             cursor = createTable.cursor()
-            cursor.execute('CREATE TABLE {} (id INT AUTO_INCREMENT PRIMARY KEY, tweet VARCHAR(280))'.format(self.__table))
+            cursor.execute('CREATE TABLE {} (id INT AUTO_INCREMENT PRIMARY KEY, tweet VARCHAR(280), sent VARCHAR(1))'.format(self.__table))
             file = open('Tweets.txt', 'r')
             fileLines = file.readlines()
             insertTable = createTable.cursor()
-            sqlCommand = 'INSERT INTO {} (tweet) VALUES (%s)'.format(self.__table)
+            sqlCommand = 'INSERT INTO {} (tweet, sent) VALUES (%s, "F")'.format(self.__table)
             for i in fileLines:
                 val = (i,)
                 insertTable.execute(sqlCommand, val)
@@ -100,6 +101,18 @@ class Database:
         number_of_tables: int = cursor.fetchone()[0]
         return number_of_tables
 
+    def update_table(self, id):
+        sql = mysql.connector.connect(
+            host = self.__host,
+            user = self.__user,
+            password = self.__password,
+            database = self.__database
+        )
+        cursor = sql.cursor()
+        sql_command = "UPDATE {} SET sent = 'T' WHERE id = %s".format(self.__table)
+        cursor.execute(sql_command, id)
+        sql.commit()
+
     def read_random_data_from_table(self) -> str:
         sql = mysql.connector.connect(
             host = self.__host,
@@ -111,11 +124,15 @@ class Database:
         sql_command = 'SELECT COUNT(*) FROM {}'.format(self.__table)
         cursor.execute(sql_command)
         number_of_tables: int = cursor.fetchone()[0]
-        sql_command = 'SELECT tweet FROM {} WHERE id = %s'.format(self.__table)
+        sql_command = 'SELECT tweet FROM {} WHERE sent = "F" AND id = %s'.format(self.__table)
         id = (str(rand(0, number_of_tables),),)
         cursor.execute(sql_command, id)
-        return cursor.fetchone()[0]
-    
+        tweet = cursor.fetchone()[0]
+        if tweet != None:
+            self.update_table(id=id)
+            print(tweet)
+        return tweet
+
     def pop_random_data_from_table(self, id = None) -> str:
         sql = mysql.connector.connect(
             host = self.__host,
@@ -138,3 +155,4 @@ class Database:
         cursor2.execute(sql_command)
         sql2.commit()
         return table_row_tweet
+    

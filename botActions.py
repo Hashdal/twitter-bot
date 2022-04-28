@@ -23,8 +23,8 @@ class MainActions:
         self.__numberOfTweets = int(botInfo["number_of_tweets"])
         self.mode = int(botInfo["mode"])
     
-    def random_from_db(self, id = None) -> None:
-        tweet = str(self.__db.pop_random_data_from_table(id))
+    def random_from_db(self) -> None:
+        tweet = str(self.__db.read_random_data_from_table())
         print(tweet)
         self.__api.PostUpdate(tweet)
 
@@ -36,8 +36,7 @@ class MainActions:
     def send_tweet_in_timespans(self) -> None:
         for i in range(self.__db.get_table_rows()):
             try:
-                randomList = random.sample(range(1, self.__db.get_table_rows() + 1), self.__db.get_table_rows())
-                self.random_from_db(randomList.pop())
+                self.random_from_db()
                 print("tweet {} sent".format(i+1))
             except:
                 print("failed to send tweet")
