@@ -2,13 +2,11 @@ import twitter
 import json
 import accessDB
 from time import sleep
-import random
 
 class MainActions:
     __api = None
     __db = None
     __delays = None
-    __numberOfTweets = None
     mode = None
     def __init__(self, configFile: str) -> None:
         botInfo = json.loads(open(configFile, 'r').read())
@@ -20,12 +18,10 @@ class MainActions:
         )
         self.__db = accessDB.Database(configFile=configFile)
         self.__delays = int(botInfo["delay_seconds"])
-        self.__numberOfTweets = int(botInfo["number_of_tweets"])
         self.mode = int(botInfo["mode"])
     
     def random_from_db(self) -> None:
         tweet = str(self.__db.read_random_data_from_table())
-        print(tweet)
         self.__api.PostUpdate(tweet)
 
     def send_tweet(self, tweet:str = None) -> None:

@@ -1,10 +1,6 @@
-from multiprocessing.dummy import current_process
-from turtle import update
-from typing import Counter
 import mysql.connector
 from random import randint as rand
 import json
-import random
 
 class Database:
 
@@ -54,8 +50,9 @@ class Database:
         checkTable = False
         cursor = self.__db.cursor()
         cursor.execute('SHOW TABLES')
-        for tableName in cursor:
-            if self.__table in tableName:
+        a = cursor.fetchall()
+        for tableName in a:
+            if self.__table == tableName[0]:
                 checkTable = True
         if not checkTable:
             createTable = mysql.connector.connect(
@@ -75,6 +72,10 @@ class Database:
                 insertTable.execute(sqlCommand, val)
                 createTable.commit()
             print('TABLE CREATED')
+        else:
+            print('TABLE EXISTS, TRY ANOTHER TABLE NAME')
+            return
+        
 
     def get_host(self) -> str:
         return self.__host
@@ -127,10 +128,12 @@ class Database:
         sql_command = 'SELECT tweet FROM {} WHERE sent = "F" AND id = %s'.format(self.__table)
         id = (str(rand(0, number_of_tables),),)
         cursor.execute(sql_command, id)
-        tweet = cursor.fetchone()[0]
+        try:
+            tweet = cursor.fetchone()[0]
+        except:
+            return self.read_random_data_from_table()
         if tweet != None:
             self.update_table(id=id)
-            print(tweet)
         return tweet
 
     def pop_random_data_from_table(self, id = None) -> str:
@@ -155,4 +158,3 @@ class Database:
         cursor2.execute(sql_command)
         sql2.commit()
         return table_row_tweet
-    

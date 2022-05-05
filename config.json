@@ -7,13 +7,7 @@
     "user":"root",
     "password":"",
     "database":"twitter_bot",
-<<<<<<< HEAD
-    "table":"HashdalTest1",
-    "delay_seconds":"10",
-=======
     "table":"",
-    "delay_seconds":"5",
->>>>>>> d87a9fc6d3cc42166f09626fdad6dbf329241f2d
-    "number_of_tweets":"10",
+    "delay_seconds":"10",
     "mode":"3"
 }
